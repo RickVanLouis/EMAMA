@@ -1,0 +1,42 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.aufgabe_5.MainActivity"
+    tools:ignore="MergeRootFrame" >
+
+    <Button
+        android:id="@+id/barBTN"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bars" />
+
+     <Button
+         android:id="@+id/handlerBTN"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignParentLeft="true"
+         android:layout_below="@+id/resBTN"
+         android:layout_marginTop="20dp"
+         android:text="ImageLoadHandler" />
+
+     <Button
+         android:id="@+id/resBTN"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignParentTop="true"
+         android:layout_centerHorizontal="true"
+         android:text="Restaurants" />
+
+     <Button
+         android:id="@+id/asyncBTN"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignRight="@+id/handlerBTN"
+         android:layout_below="@+id/handlerBTN"
+         android:layout_marginTop="29dp"
+         android:text="ImageLoadAsync" />
+
+</RelativeLayout>
+
