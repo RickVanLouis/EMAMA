@@ -1,0 +1,96 @@
+package com.example.aufgabe_5;
+
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.net.URL;
+import java.net.URLConnection;
+
+import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.widget.ImageView;
+
+public class ImageLoadMainAsync extends Activity {
+
+	public static final String tag = "ImageLoadAsync";
+
+	private String[] images = { "test.jpg", "android.jpg", "handy.jpg" };
+
+	private String[] imageBase = { "http://webuser.hs-furtwangen.de/~lieneman/android/bilder/" };
+
+	private String[] imageLinks;
+	final ImageView[] imageview = new ImageView[3];
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_image);
+
+		imageview[0] = (ImageView) findViewById(R.id.imageView0);
+		imageview[1] = (ImageView) findViewById(R.id.imageView1);
+		imageview[2] = (ImageView) findViewById(R.id.imageView2);
+
+		imageLinks = new String[images.length];
+
+		for (int i = 0; i < images.length; i++) {
+
+			imageLinks[i] = imageBase + images[i];
+		}
+
+		new ImageLoadAsync().execute(imageLinks);
+
+	}
+
+	private class ImageLoadAsync extends AsyncTask<String, Integer, Bitmap[]> {
+
+		protected Bitmap[] doInBackground(String... imageParam) {
+
+			Bitmap[] bms = new Bitmap[imageParam.length];
+			String imageLink;
+
+			for (int i = 0; i < imageParam.length; i++) {
+
+				imageLink = imageParam[i];
+
+				if ((imageLink != null) && !imageLink.equals("")) {
+
+					try {
+						URL url = new URL(imageLink);
+						URLConnection conn = url.openConnection();
+						conn.connect();
+						BufferedInputStream bis = new BufferedInputStream(
+								conn.getInputStream());
+						Bitmap bm = BitmapFactory.decodeStream(bis);
+						bms[i] = bm;
+						bis.close();
+						Log.v("ImageLadenOK", tag);
+					} catch (IOException e) {
+						Log.e("ImageLadenProblem", tag, e);
+					}
+				}
+
+			}
+			return bms;
+
+		}
+
+		@Override
+		protected void onPostExecute(Bitmap[] bms) {
+			super.onPostExecute(bms);
+			for (int i = 0; i < bms.length; i++) {
+				imageview[i].setImageBitmap(bms[i]);
+			}
+		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.image_load_main, menu);
+		return true;
+	}
+
+}
